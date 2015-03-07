@@ -8,11 +8,20 @@ import android.view.MenuItem;
 
 public class MainActivity extends ActionBarActivity {
 
+    //Explicit
+    private UserTABLE objUserTABLE;
+    private FoodTABLE objFoodTABLE;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-    }
+
+        //Connected Database
+        objUserTABLE = new UserTABLE(this);
+        objFoodTABLE = new FoodTABLE(this);
+
+    }   // onCreate
 
 
     @Override
@@ -36,4 +45,4 @@ public class MainActivity extends ActionBarActivity {
 
         return super.onOptionsItemSelected(item);
     }
-}
+}   // Main Class
