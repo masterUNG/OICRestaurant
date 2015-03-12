@@ -1,5 +1,6 @@
 package appewtc.masterung.oicrestaurant;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 
@@ -29,7 +30,12 @@ public class UserTABLE {
     //Add Value to userTABLE
     public long addValueToUser(String strUser, String strPassword, String strName) {
 
-        return 0;
+        ContentValues objContentValues = new ContentValues();
+        objContentValues.put(COLUMN_USER, strUser);
+        objContentValues.put(COLUMN_PASSWORD, strPassword);
+        objContentValues.put(COLUMN_NAME, strName);
+
+        return writeDatabase.insert(TABLE_USER, null, objContentValues);
     }
 
 

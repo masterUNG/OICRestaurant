@@ -21,7 +21,15 @@ public class MainActivity extends ActionBarActivity {
         objUserTABLE = new UserTABLE(this);
         objFoodTABLE = new FoodTABLE(this);
 
+        //Test Add New Value to SQLite
+        //testAddValue();
+
     }   // onCreate
+
+    private void testAddValue() {
+        objUserTABLE.addValueToUser("User", "Pass", "Name");
+        objFoodTABLE.addValueToFood("Food", "Price");
+    }
 
 
     @Override
