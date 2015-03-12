@@ -27,6 +27,14 @@ public class UserTABLE {
 
     }   // Constructor
 
+    //Search User
+    public String[] searchUser(String strUser) {
+
+        return new String[0];
+    }
+
+
+
     //Add Value to userTABLE
     public long addValueToUser(String strUser, String strPassword, String strName) {
 
