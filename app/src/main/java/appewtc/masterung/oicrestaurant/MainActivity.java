@@ -90,11 +90,27 @@ public class MainActivity extends ActionBarActivity {
 
             Log.d("oic", "Welcome ==> " + strName);
 
+            //Check Password
+            checkPassword();
+
         } catch (Exception e) {
             MyAlertDialog objMyAlertDialog = new MyAlertDialog();
             objMyAlertDialog.myDialog(MainActivity.this, "User False", "No This " + strUserChoose + " in my Database");
         }
 
+    }
+
+    private void checkPassword() {
+        if (strPasswordChoose.equals(strPasswordTrue)) {
+
+
+
+        } else {
+
+            MyAlertDialog objMyAlertDialog = new MyAlertDialog();
+            objMyAlertDialog.myDialog(MainActivity.this, "Password False", "Please Type Again Password False");
+
+        }
     }
 
     private void deleteAllData() {
