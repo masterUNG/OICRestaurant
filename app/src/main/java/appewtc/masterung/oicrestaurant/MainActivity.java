@@ -1,5 +1,8 @@
 package appewtc.masterung.oicrestaurant;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Build;
 import android.os.StrictMode;
@@ -103,7 +106,7 @@ public class MainActivity extends ActionBarActivity {
     private void checkPassword() {
         if (strPasswordChoose.equals(strPasswordTrue)) {
 
-
+            welcome();
 
         } else {
 
@@ -113,9 +116,40 @@ public class MainActivity extends ActionBarActivity {
         }
     }
 
+    private void welcome() {
+
+        AlertDialog.Builder objBuilder = new AlertDialog.Builder(this);
+        objBuilder.setIcon(R.drawable.restaurant);
+        objBuilder.setTitle("Welcome OIC");
+        objBuilder.setMessage("Welcome " + strName + " to my Restaurant");
+        objBuilder.setCancelable(false);
+        objBuilder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Intent objIntent = new Intent(MainActivity.this, OrderActivity.class);
+                objIntent.putExtra("Officer", strName);
+                startActivity(objIntent);
+                dialog.dismiss();
+                deleteAllData();
+                finish();
+            }
+        });
+        objBuilder.setNegativeButton("Cancle", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                edtUser.setText("");
+                edtPassword.setText("");
+                dialog.dismiss();
+            }
+        });
+        objBuilder.show();
+
+    }
+
     private void deleteAllData() {
         SQLiteDatabase objSqLiteDatabase = openOrCreateDatabase("oic.db", MODE_PRIVATE, null);
         objSqLiteDatabase.delete("userTABLE", null, null);
+        objSqLiteDatabase.delete("foodTABLE", null, null);
     }
 
     private void synJSONtoSQLite() {
