@@ -30,7 +30,8 @@ public class MainActivity extends ActionBarActivity {
     private UserTABLE objUserTABLE;
     private FoodTABLE objFoodTABLE;
     private EditText edtUser, edtPassword;
-    private String strUserChoose, strPasswordChoose;
+    private String strUserChoose, strPasswordChoose,
+            strPasswordTrue, strName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,9 +73,29 @@ public class MainActivity extends ActionBarActivity {
 
         } else {
 
+            //Check User
+            checkUser();
+
         }   // if
 
     }   // clickLogin
+
+    private void checkUser() {
+
+        try {
+
+            String strMyResult[] = objUserTABLE.searchUser(strUserChoose);
+            strPasswordTrue = strMyResult[2];
+            strName = strMyResult[3];
+
+            Log.d("oic", "Welcome ==> " + strName);
+
+        } catch (Exception e) {
+            MyAlertDialog objMyAlertDialog = new MyAlertDialog();
+            objMyAlertDialog.myDialog(MainActivity.this, "User False", "No This " + strUserChoose + " in my Database");
+        }
+
+    }
 
     private void deleteAllData() {
         SQLiteDatabase objSqLiteDatabase = openOrCreateDatabase("oic.db", MODE_PRIVATE, null);
