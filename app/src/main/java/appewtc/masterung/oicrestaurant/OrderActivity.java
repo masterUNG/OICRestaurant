@@ -1,5 +1,7 @@
 package appewtc.masterung.oicrestaurant;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Build;
 import android.os.StrictMode;
 import android.support.v7.app.ActionBarActivity;
@@ -69,13 +71,92 @@ public class OrderActivity extends ActionBarActivity {
                 R.drawable.food15, R.drawable.food16, R.drawable.food17,
                 R.drawable.food18, R.drawable.food19, R.drawable.food20 };
 
-        String[] strListFood = objFoodTABLE.readAllFood();
+        final String[] strListFood = objFoodTABLE.readAllFood();
         String[] strListPrice = objFoodTABLE.readAllPrice();
 
         MyAdapter objMyAdapter = new MyAdapter(OrderActivity.this, strListFood, strListPrice, intMyImageFood);
         myListView.setAdapter(objMyAdapter);
 
+        //Click Active
+        myListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                strFood = strListFood[position];
+                chooseItem();
+
+            }   // event
+        });
+
     }   // createListView
+
+    private void chooseItem() {
+        CharSequence[] charItem = {"1 จาน", "2 จาน", "3 จาน", "3 จาน", "5 จาน",};
+
+        AlertDialog.Builder objBuilder = new AlertDialog.Builder(this);
+        objBuilder.setIcon(R.drawable.restaurant);
+        objBuilder.setTitle("Choose Item ?");
+        objBuilder.setCancelable(false);
+        objBuilder.setSingleChoiceItems(charItem, -1, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+                switch (which) {
+
+                    case 0:
+                        strItem = "1";
+                        break;
+                    case 1:
+                        strItem = "2";
+                        break;
+                    case 2:
+                        strItem = "3";
+                        break;
+                    case 3:
+                        strItem = "4";
+                        break;
+                    case 4:
+                        strItem = "5";
+                        break;
+
+                }   // switch
+
+                dialog.dismiss();
+
+                //Confirm Order
+                confirmOrder();
+
+            }   // event
+        });
+
+        AlertDialog objAlertDialog = objBuilder.create();
+        objAlertDialog.show();
+
+
+    }   // chooseItem
+
+    private void confirmOrder() {
+
+        AlertDialog.Builder objBuilder = new AlertDialog.Builder(this);
+        objBuilder.setIcon(R.drawable.restaurant);
+        objBuilder.setTitle("Confirm Order Please");
+        objBuilder.setCancelable(false);
+        objBuilder.setMessage(strOfficer + "\n" + "Desk = " + strDesk + "\n" + strFood + "\n" + "item = " + strItem);
+        objBuilder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        objBuilder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        objBuilder.show();
+
+    }   // confirmOrder
 
 
     private void createSpinner() {
