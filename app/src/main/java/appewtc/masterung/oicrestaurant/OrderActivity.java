@@ -15,18 +15,23 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 
 
 public class OrderActivity extends ActionBarActivity {
@@ -145,6 +150,7 @@ public class OrderActivity extends ActionBarActivity {
         objBuilder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                upOrderToMySQL();
                 dialog.dismiss();
             }
         });
@@ -157,6 +163,27 @@ public class OrderActivity extends ActionBarActivity {
         objBuilder.show();
 
     }   // confirmOrder
+
+    private void upOrderToMySQL() {
+        try {
+
+            ArrayList<NameValuePair> objNameValuePairs = new ArrayList<NameValuePair>();
+            objNameValuePairs.add(new BasicNameValuePair("isAdd", "true"));
+            objNameValuePairs.add(new BasicNameValuePair("Officer", strOfficer));
+            objNameValuePairs.add(new BasicNameValuePair("Desk", strDesk));
+            objNameValuePairs.add(new BasicNameValuePair("Food", strFood));
+            objNameValuePairs.add(new BasicNameValuePair("Item", strItem));
+
+            HttpClient objHttpClient = new DefaultHttpClient();
+            HttpPost objHttpPost = new HttpPost("http://swiftcodingthai.com/olc/add_data_restaurant.php");
+            objHttpPost.setEntity(new UrlEncodedFormEntity(objNameValuePairs, "UTF-8"));
+            objHttpClient.execute(objHttpPost);
+            Toast.makeText(OrderActivity.this, "Up Value Finish", 5000).show();
+
+        } catch (Exception e) {
+            Log.d("oic", "upOrder ==> " + e.toString());
+        }
+    }
 
 
     private void createSpinner() {
